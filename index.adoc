@@ -1,6 +1,6 @@
 :source-highlighter: pygments
 :numbered:
-:author: Josiel Rocha de Oliveira
+:author: Josiel Rocha de Oliveira e Jedson Jhones Barbosa Alves
 :icons:
 :experimental:
 :stem:
@@ -32,7 +32,8 @@ Os exercícios propostos foram resolvidos utilizando a linguagem de programaçã
 
 == Manipulando pixels em uma imagem
 
-===== Exercício 2.2
+===== Exercício 2.1 - 
+===== Abaixo temos o código e a imagem utilizada para a realização do exercicio
 
 [source, cpp]
 ----
@@ -76,11 +77,113 @@ int main(int, char**){
   return 0;
 }
 ----
-
-
 image::biel.png[title="Biel.png"]
+[source, cpp]
+----
+#include <iostream>
+#include <opencv2/opencv.hpp>
 
-===== Exercicio 2.2.2
+int main(int, char**){
+  cv::Mat image;
+  cv::Vec3b val;
+
+  int P1[2];
+  int P2[2];
+
+  image= cv::imread("biel.png",cv::IMREAD_GRAYSCALE);
+  if(!image.data)
+    std::cout << "nao abriu biel.png" << std::endl;
+
+// -------------PRIMEIRA COORDENADA (P1)-------------
+  std::cout << "Digite as coordenadas P1(x,y)" << std::endl;
+  std::cin >> P1[0];
+  while(P1[0] > image.rows || P1[0] < 0){
+    std::cout << "Linha invalida. Digite novamente.\n";
+    std::cin >> P1[0];
+  }
+  std::cin >> P1[1];
+  while(P1[1] > image.cols || P1[1] < 0){
+    std::cout << "Coluna invalida. Digite novamente.\n";
+    std::cin >> P1[1];
+  }
+
+// --------------SEGUNDA COORDENADA (P2)----------
+  std::cout << "Digite as coordenadas P2(x,y)" << std::endl;
+  std::cin >> P2[0];
+  while(P2[0] > image.rows || P2[0] < 0){
+    std::cout << "Linha invalida. Digite novamente.\n";
+    std::cin >> P2[0];
+  }
+
+  std::cin >> P2[1];
+  while(P2[1] > image.cols || P2[1] < 0){
+    std::cout << "Coluna invalida. Digite novamente.\n";
+    std::cin >> P2[1];
+  }
+
+//-------------------------------------
+
+  for(int i=P1[0];i<P2[0];i++){
+    for(int j=P1[1];j<P2[1];j++){
+      image.at<uchar>(i,j)=255-image.at<uchar>(i,j);
+    }
+  }
+
+  cv::imshow("Regioes", image);
+  cv::waitKey();
+}
+----
+image::regioes.png[title="Regioes.png"]
+
+===== Exercicio 2.2
+[source, cpp]
+----
+#include <iostream>
+#include <opencv2/opencv.hpp>
+
+int main(int, char**){
+  cv::Mat image, image1, image2;
+  cv::Vec3b val;
+
+  image= cv::imread("biel.png",cv::IMREAD_GRAYSCALE);
+  if(!image.data)
+    std::cout << "nao abriu biel.png" << std::endl;
+
+  cv::imshow("Original", image);
+
+// -----------PRIMEIRA CÓPIA---------
+  cv::Rect regiao1 = cv::Rect(0, 0,
+  image.cols/2, image.rows/2);
+
+  image(regiao1).copyTo(image1);
+
+// --Movendo uma cópia do quarto quadrante para o primeiro
+  image(cv::Rect(image.cols/2, image.rows/2,
+  image.cols/2, image.rows/2)).copyTo(image(regiao1));
+
+// ----------SEGUNDA CÓPIA--------
+  cv::Rect regiao2 = cv::Rect(image.cols/2, 0,
+   image.cols/2, image.rows/2);
+
+  image(regiao2).copyTo(image2);
+
+// --Movendo uma cópia do terceiro quadrante para o segundo
+  image(cv::Rect(0, image.rows/2,
+   image.cols/2, image.rows/2)).copyTo(image(regiao2));
+
+// --Movendo a cópia do primeiro quadrante para o quarto
+  image1.copyTo(image(cv::Rect(image.cols/2, image.rows/2,
+  image.cols/2, image.rows/2)));
+
+// --Movendo a cópia do segundo quadrante para o terceiro
+  image2.copyTo(image(cv::Rect(0, image.rows/2,
+   image.cols/2, image.rows/2)));
+
+  cv::imshow("Troca regioes", image);
+  cv::waitKey();
+}
+----
+image::TrocaRegiooes.png[title="Troca Regioes.png"]
 
 ==  Serialização de dados em ponto flutuante via FileStorage
 
@@ -133,7 +236,7 @@ int main(int argc, char** argv) {
     return 0;
 }
 ----
-
+image::Imag_Senoide.png[title="Senoide.png"]
 == Decomposição de imagens em planos de bits
 
 ===== Exercício 4.3
@@ -588,6 +691,8 @@ int main(int argvc, char** argv) {
     return 0;
 }
 ----
+image::Figura Original.png[title="Figura sem o filtro homomórfico"]
+image::Resultado do filtro.png[title="Figura com o filtro"]
 == Detecção de bordas com o algoritmo de Canny
 
 ===== 11.3
@@ -610,69 +715,72 @@ using namespace std;
 #define JITTER 3
 #define RAIO 3
 
-int main(int argc, char** argv){
-  srand(time(0));
+int main(int argc, char** argv) {
+    srand(time(0));
 
-  Mat original_image, canny_image, pontilhismo_image;
-  vector<int> y_range; vector<int> x_range;
-  int x, y, cinza_value, width, height;
+    Mat imagem, canny_imagem, pontilhismo_imagem;
+    vector<int> y_range; vector<int> x_range;
+    int x, y, cinza_value, width, height;
 
-  original_image= imread("car-cin.jpg",CV_LOAD_IMAGE_GRAYSCALE); // Imagem em tom de cinza!
-  if(!original_image.data){
-    cout << "Erro na abertura da imagem." << endl;
-    exit(0);
-  }
-
-  width = original_image.size().width; height = original_image.size().height;
-  x_range.resize(height/STEP); y_range.resize(width/STEP);
-  iota(x_range.begin(), x_range.end(), 0); iota(y_range.begin(), y_range.end(), 0);
-
-  for(uint i=0; i<x_range.size(); i++){
-    x_range[i]= x_range[i]*STEP+STEP/2; y_range[i]= y_range[i]*STEP+STEP/2;
-  }
-
-  original_image.copyTo(pontilhismo_image);
-  random_shuffle(x_range.begin(), x_range.end());
-
-  for(auto i : x_range){
-    random_shuffle(x_range.begin(), x_range.end());
-    for(auto j : y_range){
-      x = i+rand()%(2*JITTER)-JITTER+1; y = j+rand()%(2*JITTER)-JITTER+1;
-      cinza_value = original_image.at<uchar>(x,y);
-      circle(pontilhismo_image, cv::Point(y,x), RAIO, CV_RGB(cinza_value, cinza_value, cinza_value), -1, CV_AA);
+    imagem = imread("imagem 3.png", CV_LOAD_IMAGE_GRAYSCALE); // Imagem em tom de cinza!
+    if (!imagem.data) {
+        cout << "Erro na abertura da imagem." << endl;
+        exit(0);
     }
-  }
-  imwrite("pontilhismo_filtro1.jpg", pontilhismo_image);
 
-  /*
-	O código abaixo executa o filtro de canny na imagem "n_passo" vezes,
-	e a cada passo aumenta os limiares do filtro, diminuindo o número de bordas da saída,
-	e ao mesmo tempo melhorando a qualidade da imagem final.
-  */
-  int n_passo = 5;
-  for(int i=0; i<n_passo; i++){
+    width = imagem.size().width; height = imagem.size().height;
+    x_range.resize(height / STEP); y_range.resize(width / STEP);
+    iota(x_range.begin(), x_range.end(), 0); iota(y_range.begin(), y_range.end(), 0);
 
-     /*
-      * Raio = Raio do círculo desenhado
-      * Low_limiar = Limiar inferior do filtro / high_limiar = Limiar superior do filtro
-     */
-     int raio = 5-i, low_limiar = 10*i, high_limiar = 3*low_limiar;
+    for (uint i = 0; i < x_range.size(); i++) {
+        x_range[i] = x_range[i] * STEP + STEP / 2; y_range[i] = y_range[i] * STEP + STEP / 2;
+    }
 
-     Canny(original_image, canny_image, low_limiar, high_limiar);
+    imagem.copyTo(pontilhismo_imagem);
+    random_shuffle(x_range.begin(), x_range.end());
 
-     for(int i=0; i<height; i++ ){
-        for(int j=0; j<width; j++){
-           if(canny_image.at<uchar>(i,j)>0){
-              cinza_value = original_image.at<uchar>(i,j);
-              circle(pontilhismo_image, cv::Point(j,i), raio, CV_RGB(cinza_value, cinza_value, cinza_value), -1, CV_AA);
-           }
+    for (auto i : x_range) {
+        random_shuffle(x_range.begin(), x_range.end());
+        for (auto j : y_range) {
+            x = i + rand() % (2 * JITTER) - JITTER + 1; y = j + rand() % (2 * JITTER) - JITTER + 1;
+            cinza_value = imagem.at<uchar>(x, y);
+            circle(pontilhismo_imagem, cv::Point(y, x), RAIO, CV_RGB(cinza_value, cinza_value, cinza_value), -1, CV_AA);
         }
-     }
-  }
-  imwrite("pontilhismo_filtro2.jpg", pontilhismo_image);
-  return 0;
+    }
+    imwrite("Pont1.png", pontilhismo_imagem);
+
+    /*
+      O código abaixo executa o filtro de canny na imagem "n_passo" vezes,
+      e a cada passo aumenta os limiares do filtro, diminuindo o número de bordas da saída,
+      e ao mesmo tempo melhorando a qualidade da imagem final.
+    */
+    int n_passo = 5;
+    for (int i = 0; i < n_passo; i++) {
+
+        /*
+         * Raio = Raio do círculo desenhado
+         * Low_limiar = Limiar inferior do filtro / high_limiar = Limiar superior do filtro
+        */
+        int raio = 5 - i, low_limiar = 10 * i, high_limiar = 3 * low_limiar;
+
+        Canny(imagem, canny_imagem, low_limiar, high_limiar);
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (canny_imagem.at<uchar>(i, j) > 0) {
+                    cinza_value = imagem.at<uchar>(i, j);
+                    circle(pontilhismo_imagem, cv::Point(j, i), raio, CV_RGB(cinza_value, cinza_value, cinza_value), -1, CV_AA);
+                }
+            }
+        }
+    }
+    imwrite("Pont2.png", pontilhismo_imagem);
+    return 0;
 }
 ----
+image::imagem3.png[title="Imagem Original"]
+image::Image2.png[title="Pontilhismo aplicado"]
+
 == Quantização vetorial com k-means
 
 ===== Exercício 12.2
@@ -727,10 +835,9 @@ int main( int argc, char** argv ){
   waitKey( 0 );
 }
 ----
-
+image::gif_kmeans.gif[title="Gif utilizando o algoritmo kmeans"]
 == Filtragem de forma com morfologia matemática
 
 ===== Exercício 13.2
 [source, cpp]
 ----
-
