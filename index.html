@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="Josiel Rocha de Oliveira">
+<meta name="author" content="Josiel Rocha de Oliveira e Jedson Jhones Barbosa Alves">
 <title>Trabalho de PDI - Exercicios</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -437,11 +437,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="book toc2 toc-left data-line-1">
+<body class="book toc2 toc-left">
 <div id="header">
 <h1>Trabalho de PDI - Exercicios</h1>
 <div class="details">
-<span id="author" class="author">Josiel Rocha de Oliveira</span><br>
+<span id="author" class="author">Josiel Rocha de Oliveira e Jedson Jhones Barbosa Alves</span><br>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Sumário</div>
@@ -449,8 +449,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_introdução">1. Introdução</a></li>
 <li><a href="#_manipulando_pixels_em_uma_imagem">2. Manipulando pixels em uma imagem</a>
 <ul class="sectlevel4">
-<li><a href="#_exercício_2_2">Exercício 2.2</a></li>
-<li><a href="#_exercicio_2_2_2">Exercicio 2.2.2</a></li>
+<li><a href="#_exercício_2_1">Exercício 2.1 -</a></li>
+<li><a href="#_abaixo_temos_o_código_e_a_imagem_utilizada_para_a_realização_do_exercicio">Abaixo temos o código e a imagem utilizada para a realização do exercicio</a></li>
+<li><a href="#_exercicio_2_2">Exercicio 2.2</a></li>
 </ul>
 </li>
 <li><a href="#_serialização_de_dados_em_ponto_flutuante_via_filestorage">3. Serialização de dados em ponto flutuante via FileStorage</a>
@@ -512,23 +513,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div id="content">
-<div class="sect1 data-line-28">
+<div class="sect1">
 <h2 id="_introdução">1. Introdução</h2>
 <div class="sectionbody">
-<div class="paragraph data-line-29">
+<div class="paragraph">
 <p>O Objetivo deste site é mostrar as soluções dos exercicios propostos nas aulas de Processamento Digital de Imagens(DCA0445).</p>
 </div>
-<div class="paragraph data-line-31">
+<div class="paragraph">
 <p>Os exercícios propostos foram resolvidos utilizando a linguagem de programação C++ com a biblioteca OpenCV no Linux.</p>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-33">
+<div class="sect1">
 <h2 id="_manipulando_pixels_em_uma_imagem">2. Manipulando pixels em uma imagem</h2>
 <div class="sectionbody">
-<div class="sect4 data-line-35">
-<h5 id="_exercício_2_2">Exercício 2.2</h5>
-<div class="listingblock data-line-38">
+<div class="sect4">
+<h5 id="_exercício_2_1">Exercício 2.1 -</h5>
+
+</div>
+<div class="sect4">
+<h5 id="_abaixo_temos_o_código_e_a_imagem_utilizada_para_a_realização_do_exercicio">Abaixo temos o código e a imagem utilizada para a realização do exercicio</h5>
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;iostream&gt;
 #include &lt;opencv2/opencv.hpp&gt;
@@ -571,25 +576,140 @@ int main(int, char**){
 }</code></pre>
 </div>
 </div>
-<div class="imageblock data-line-81">
+<div class="imageblock">
 <div class="content">
 <img src="./PDI/figuras/biel.png" alt="biel">
 </div>
 <div class="title">Figura 1. Biel.png</div>
 </div>
-</div>
-<div class="sect4 data-line-83">
-<h5 id="_exercicio_2_2_2">Exercicio 2.2.2</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;opencv2/opencv.hpp&gt;
 
+int main(int, char**){
+  cv::Mat image;
+  cv::Vec3b val;
+
+  int P1[2];
+  int P2[2];
+
+  image= cv::imread("biel.png",cv::IMREAD_GRAYSCALE);
+  if(!image.data)
+    std::cout &lt;&lt; "nao abriu biel.png" &lt;&lt; std::endl;
+
+// -------------PRIMEIRA COORDENADA (P1)-------------
+  std::cout &lt;&lt; "Digite as coordenadas P1(x,y)" &lt;&lt; std::endl;
+  std::cin &gt;&gt; P1[0];
+  while(P1[0] &gt; image.rows || P1[0] &lt; 0){
+    std::cout &lt;&lt; "Linha invalida. Digite novamente.\n";
+    std::cin &gt;&gt; P1[0];
+  }
+  std::cin &gt;&gt; P1[1];
+  while(P1[1] &gt; image.cols || P1[1] &lt; 0){
+    std::cout &lt;&lt; "Coluna invalida. Digite novamente.\n";
+    std::cin &gt;&gt; P1[1];
+  }
+
+// --------------SEGUNDA COORDENADA (P2)----------
+  std::cout &lt;&lt; "Digite as coordenadas P2(x,y)" &lt;&lt; std::endl;
+  std::cin &gt;&gt; P2[0];
+  while(P2[0] &gt; image.rows || P2[0] &lt; 0){
+    std::cout &lt;&lt; "Linha invalida. Digite novamente.\n";
+    std::cin &gt;&gt; P2[0];
+  }
+
+  std::cin &gt;&gt; P2[1];
+  while(P2[1] &gt; image.cols || P2[1] &lt; 0){
+    std::cout &lt;&lt; "Coluna invalida. Digite novamente.\n";
+    std::cin &gt;&gt; P2[1];
+  }
+
+//-------------------------------------
+
+  for(int i=P1[0];i&lt;P2[0];i++){
+    for(int j=P1[1];j&lt;P2[1];j++){
+      image.at&lt;uchar&gt;(i,j)=255-image.at&lt;uchar&gt;(i,j);
+    }
+  }
+
+  cv::imshow("Regioes", image);
+  cv::waitKey();
+}</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./PDI/figuras/regioes.png" alt="regioes">
+</div>
+<div class="title">Figura 2. Regioes.png</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_exercicio_2_2">Exercicio 2.2</h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;iostream&gt;
+#include &lt;opencv2/opencv.hpp&gt;
+
+int main(int, char**){
+  cv::Mat image, image1, image2;
+  cv::Vec3b val;
+
+  image= cv::imread("biel.png",cv::IMREAD_GRAYSCALE);
+  if(!image.data)
+    std::cout &lt;&lt; "nao abriu biel.png" &lt;&lt; std::endl;
+
+  cv::imshow("Original", image);
+
+// -----------PRIMEIRA CÓPIA---------
+  cv::Rect regiao1 = cv::Rect(0, 0,
+  image.cols/2, image.rows/2);
+
+  image(regiao1).copyTo(image1);
+
+// --Movendo uma cópia do quarto quadrante para o primeiro
+  image(cv::Rect(image.cols/2, image.rows/2,
+  image.cols/2, image.rows/2)).copyTo(image(regiao1));
+
+// ----------SEGUNDA CÓPIA--------
+  cv::Rect regiao2 = cv::Rect(image.cols/2, 0,
+   image.cols/2, image.rows/2);
+
+  image(regiao2).copyTo(image2);
+
+// --Movendo uma cópia do terceiro quadrante para o segundo
+  image(cv::Rect(0, image.rows/2,
+   image.cols/2, image.rows/2)).copyTo(image(regiao2));
+
+// --Movendo a cópia do primeiro quadrante para o quarto
+  image1.copyTo(image(cv::Rect(image.cols/2, image.rows/2,
+  image.cols/2, image.rows/2)));
+
+// --Movendo a cópia do segundo quadrante para o terceiro
+  image2.copyTo(image(cv::Rect(0, image.rows/2,
+   image.cols/2, image.rows/2)));
+
+  cv::imshow("Troca regioes", image);
+  cv::waitKey();
+}</code></pre>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./PDI/figuras/TrocaRegiooes.png" alt="TrocaRegiooes">
+</div>
+<div class="title">Figura 3. Troca Regioes.png</div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-85">
+</div>
+<div class="sect1">
 <h2 id="_serialização_de_dados_em_ponto_flutuante_via_filestorage">3. Serialização de dados em ponto flutuante via FileStorage</h2>
 <div class="sectionbody">
-<div class="sect4 data-line-87">
+<div class="sect4">
 <h5 id="_exercício_3_2">Exercício 3.2</h5>
-<div class="listingblock data-line-90">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;iostream&gt;
 #include &lt;opencv2/opencv.hpp&gt;
@@ -637,15 +757,21 @@ int main(int argc, char** argv) {
 }</code></pre>
 </div>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="./PDI/figuras/Imag_Senoide.png" alt="Imag Senoide">
+</div>
+<div class="title">Figura 4. Senoide.png</div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-137">
+</div>
+<div class="sect1">
 <h2 id="_decomposição_de_imagens_em_planos_de_bits">4. Decomposição de imagens em planos de bits</h2>
 <div class="sectionbody">
-<div class="sect4 data-line-139">
+<div class="sect4">
 <h5 id="_exercício_4_3">Exercício 4.3</h5>
-<div class="listingblock data-line-141">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp"></code></pre>
 </div>
@@ -653,12 +779,12 @@ int main(int argc, char** argv) {
 </div>
 </div>
 </div>
-<div class="sect1 data-line-143">
+<div class="sect1">
 <h2 id="_preenchendo_regiões">5. Preenchendo regiões</h2>
 <div class="sectionbody">
-<div class="sect5 data-line-145">
+<div class="sect5">
 <h6 id="_exercício_5_2">Exercício 5.2</h6>
-<div class="listingblock data-line-147">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;iostream&gt;
 #include &lt;opencv2/opencv.hpp&gt;
@@ -751,21 +877,21 @@ int main(int argc, char** argv){
 }</code></pre>
 </div>
 </div>
-<div class="imageblock data-line-239">
+<div class="imageblock">
 <div class="content">
 <img src="./PDI/figuras/labeling.png" alt="labeling">
 </div>
-<div class="title">Figura 2. Resultado do labeling</div>
+<div class="title">Figura 5. Resultado do labeling</div>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-241">
+<div class="sect1">
 <h2 id="_manipulação_de_histogramas">6. Manipulação de histogramas</h2>
 <div class="sectionbody">
-<div class="sect4 data-line-243">
+<div class="sect4">
 <h5 id="_exercício_6_2">Exercício 6.2</h5>
-<div class="listingblock data-line-245">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;iostream&gt;
 #include &lt;opencv2/opencv.hpp&gt;
@@ -903,12 +1029,12 @@ int main(int argc, char** argv) {
 </div>
 </div>
 </div>
-<div class="sect1 data-line-379">
+<div class="sect1">
 <h2 id="_filtragem_no_domínio_espacial_i">7. Filtragem no domínio espacial I</h2>
 <div class="sectionbody">
-<div class="sect5 data-line-381">
+<div class="sect5">
 <h6 id="_exercício_7_2">Exercício 7.2</h6>
-<div class="listingblock data-line-383">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp"></code></pre>
 </div>
@@ -916,12 +1042,12 @@ int main(int argc, char** argv) {
 </div>
 </div>
 </div>
-<div class="sect1 data-line-386">
+<div class="sect1">
 <h2 id="_filtragem_no_domínio_espacial_ii">8. Filtragem no domínio espacial II</h2>
 <div class="sectionbody">
-<div class="sect5 data-line-388">
+<div class="sect5">
 <h6 id="_exercício_8_1">Exercício 8.1</h6>
-<div class="listingblock data-line-390">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp"></code></pre>
 </div>
@@ -929,12 +1055,12 @@ int main(int argc, char** argv) {
 </div>
 </div>
 </div>
-<div class="sect1 data-line-393">
+<div class="sect1">
 <h2 id="_a_tranformada_discreta_de_fourier">9. A Tranformada Discreta de Fourier</h2>
 <div class="sectionbody">
-<div class="sect5 data-line-395">
+<div class="sect5">
 <h6 id="_exercício_9_2">Exercício 9.2</h6>
-<div class="listingblock data-line-397">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp"></code></pre>
 </div>
@@ -942,12 +1068,12 @@ int main(int argc, char** argv) {
 </div>
 </div>
 </div>
-<div class="sect1 data-line-400">
+<div class="sect1">
 <h2 id="_filtragem_no_domínio_da_frequência">10. Filtragem no Domínio da Frequência</h2>
 <div class="sectionbody">
-<div class="sect4 data-line-402">
+<div class="sect4">
 <h5 id="_exercício_10_2">Exercício 10.2</h5>
-<div class="listingblock data-line-405">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;iostream&gt;
 #include &lt;opencv2/opencv.hpp&gt;
@@ -1133,15 +1259,27 @@ int main(int argvc, char** argv) {
 }</code></pre>
 </div>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="./PDI/figuras/Figura%20Original.png" alt="Figura Original">
+</div>
+<div class="title">Figura 6. Figura sem o filtro homomórfico</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./PDI/figuras/Resultado%20do%20filtro.png" alt="Resultado do filtro">
+</div>
+<div class="title">Figura 7. Figura com o filtro</div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-591">
+</div>
+<div class="sect1">
 <h2 id="_detecção_de_bordas_com_o_algoritmo_de_canny">11. Detecção de bordas com o algoritmo de Canny</h2>
 <div class="sectionbody">
-<div class="sect4 data-line-593">
+<div class="sect4">
 <h5 id="_11_3">11.3</h5>
-<div class="listingblock data-line-595">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;algorithm&gt;
 #include &lt;cstdlib&gt;
@@ -1160,79 +1298,91 @@ using namespace std;
 #define JITTER 3
 #define RAIO 3
 
-int main(int argc, char** argv){
-  srand(time(0));
+int main(int argc, char** argv) {
+    srand(time(0));
 
-  Mat original_image, canny_image, pontilhismo_image;
-  vector&lt;int&gt; y_range; vector&lt;int&gt; x_range;
-  int x, y, cinza_value, width, height;
+    Mat imagem, canny_imagem, pontilhismo_imagem;
+    vector&lt;int&gt; y_range; vector&lt;int&gt; x_range;
+    int x, y, cinza_value, width, height;
 
-  original_image= imread("car-cin.jpg",CV_LOAD_IMAGE_GRAYSCALE); // Imagem em tom de cinza!
-  if(!original_image.data){
-    cout &lt;&lt; "Erro na abertura da imagem." &lt;&lt; endl;
-    exit(0);
-  }
-
-  width = original_image.size().width; height = original_image.size().height;
-  x_range.resize(height/STEP); y_range.resize(width/STEP);
-  iota(x_range.begin(), x_range.end(), 0); iota(y_range.begin(), y_range.end(), 0);
-
-  for(uint i=0; i&lt;x_range.size(); i++){
-    x_range[i]= x_range[i]*STEP+STEP/2; y_range[i]= y_range[i]*STEP+STEP/2;
-  }
-
-  original_image.copyTo(pontilhismo_image);
-  random_shuffle(x_range.begin(), x_range.end());
-
-  for(auto i : x_range){
-    random_shuffle(x_range.begin(), x_range.end());
-    for(auto j : y_range){
-      x = i+rand()%(2*JITTER)-JITTER+1; y = j+rand()%(2*JITTER)-JITTER+1;
-      cinza_value = original_image.at&lt;uchar&gt;(x,y);
-      circle(pontilhismo_image, cv::Point(y,x), RAIO, CV_RGB(cinza_value, cinza_value, cinza_value), -1, CV_AA);
+    imagem = imread("imagem 3.png", CV_LOAD_IMAGE_GRAYSCALE); // Imagem em tom de cinza!
+    if (!imagem.data) {
+        cout &lt;&lt; "Erro na abertura da imagem." &lt;&lt; endl;
+        exit(0);
     }
-  }
-  imwrite("pontilhismo_filtro1.jpg", pontilhismo_image);
 
-  /*
-	O código abaixo executa o filtro de canny na imagem "n_passo" vezes,
-	e a cada passo aumenta os limiares do filtro, diminuindo o número de bordas da saída,
-	e ao mesmo tempo melhorando a qualidade da imagem final.
-  */
-  int n_passo = 5;
-  for(int i=0; i&lt;n_passo; i++){
+    width = imagem.size().width; height = imagem.size().height;
+    x_range.resize(height / STEP); y_range.resize(width / STEP);
+    iota(x_range.begin(), x_range.end(), 0); iota(y_range.begin(), y_range.end(), 0);
 
-     /*
-      * Raio = Raio do círculo desenhado
-      * Low_limiar = Limiar inferior do filtro / high_limiar = Limiar superior do filtro
-     */
-     int raio = 5-i, low_limiar = 10*i, high_limiar = 3*low_limiar;
+    for (uint i = 0; i &lt; x_range.size(); i++) {
+        x_range[i] = x_range[i] * STEP + STEP / 2; y_range[i] = y_range[i] * STEP + STEP / 2;
+    }
 
-     Canny(original_image, canny_image, low_limiar, high_limiar);
+    imagem.copyTo(pontilhismo_imagem);
+    random_shuffle(x_range.begin(), x_range.end());
 
-     for(int i=0; i&lt;height; i++ ){
-        for(int j=0; j&lt;width; j++){
-           if(canny_image.at&lt;uchar&gt;(i,j)&gt;0){
-              cinza_value = original_image.at&lt;uchar&gt;(i,j);
-              circle(pontilhismo_image, cv::Point(j,i), raio, CV_RGB(cinza_value, cinza_value, cinza_value), -1, CV_AA);
-           }
+    for (auto i : x_range) {
+        random_shuffle(x_range.begin(), x_range.end());
+        for (auto j : y_range) {
+            x = i + rand() % (2 * JITTER) - JITTER + 1; y = j + rand() % (2 * JITTER) - JITTER + 1;
+            cinza_value = imagem.at&lt;uchar&gt;(x, y);
+            circle(pontilhismo_imagem, cv::Point(y, x), RAIO, CV_RGB(cinza_value, cinza_value, cinza_value), -1, CV_AA);
         }
-     }
-  }
-  imwrite("pontilhismo_filtro2.jpg", pontilhismo_image);
-  return 0;
+    }
+    imwrite("Pont1.png", pontilhismo_imagem);
+
+    /*
+      O código abaixo executa o filtro de canny na imagem "n_passo" vezes,
+      e a cada passo aumenta os limiares do filtro, diminuindo o número de bordas da saída,
+      e ao mesmo tempo melhorando a qualidade da imagem final.
+    */
+    int n_passo = 5;
+    for (int i = 0; i &lt; n_passo; i++) {
+
+        /*
+         * Raio = Raio do círculo desenhado
+         * Low_limiar = Limiar inferior do filtro / high_limiar = Limiar superior do filtro
+        */
+        int raio = 5 - i, low_limiar = 10 * i, high_limiar = 3 * low_limiar;
+
+        Canny(imagem, canny_imagem, low_limiar, high_limiar);
+
+        for (int i = 0; i &lt; height; i++) {
+            for (int j = 0; j &lt; width; j++) {
+                if (canny_imagem.at&lt;uchar&gt;(i, j) &gt; 0) {
+                    cinza_value = imagem.at&lt;uchar&gt;(i, j);
+                    circle(pontilhismo_imagem, cv::Point(j, i), raio, CV_RGB(cinza_value, cinza_value, cinza_value), -1, CV_AA);
+                }
+            }
+        }
+    }
+    imwrite("Pont2.png", pontilhismo_imagem);
+    return 0;
 }</code></pre>
 </div>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="./PDI/figuras/imagem3.png" alt="imagem3">
+</div>
+<div class="title">Figura 8. Imagem Original</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./PDI/figuras/Image2.png" alt="Image2">
+</div>
+<div class="title">Figura 9. Pontilhismo aplicado</div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-676">
+</div>
+<div class="sect1">
 <h2 id="_quantização_vetorial_com_k_means">12. Quantização vetorial com k-means</h2>
 <div class="sectionbody">
-<div class="sect4 data-line-678">
+<div class="sect4">
 <h5 id="_exercício_12_2">Exercício 12.2</h5>
-<div class="listingblock data-line-680">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp">#include &lt;opencv2/opencv.hpp&gt;
 #include &lt;cstdlib&gt;
@@ -1284,15 +1434,21 @@ int main( int argc, char** argv ){
 }</code></pre>
 </div>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="./PDI/figuras/gif_kmeans.gif" alt="gif kmeans">
+</div>
+<div class="title">Figura 10. Gif utilizando o algoritmo kmeans</div>
 </div>
 </div>
 </div>
-<div class="sect1 data-line-731">
+</div>
+<div class="sect1">
 <h2 id="_filtragem_de_forma_com_morfologia_matemática">13. Filtragem de forma com morfologia matemática</h2>
 <div class="sectionbody">
-<div class="sect4 data-line-733">
+<div class="sect4">
 <h5 id="_exercício_13_2">Exercício 13.2</h5>
-<div class="listingblock data-line-735">
+<div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-cpp" data-lang="cpp"></code></pre>
 </div>
@@ -1303,7 +1459,7 @@ int main( int argc, char** argv ){
 </div>
 <div id="footer">
 <div id="footer-text">
-Última atualização 2023-07-17 17:26:55 -0300
+Última atualização 2023-07-19 02:03:39 -0300
 </div>
 </div>
 <script type="text/x-mathjax-config">
